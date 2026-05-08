@@ -2,3 +2,57 @@ FUNDAMENTACION DE DECISIONES DE DISENO
 Sistema de Gestion de Garage - Parcial 1
 Alumno: Lucas Perez
 ========================================
+
+1. CLASE ABSTRACTA Vehiculo
+   Se decidio que Vehiculo sea una clase abstracta porque no tiene sentido
+   instanciar un "vehiculo generico" en el sistema. Siempre se trabaja con
+   un tipo concreto: Moto, Auto o Camion.
+   Vehiculo implementa las interfaces Calculable y Mostrable, centralizando
+   la logica comun y evitando repeticion de codigo en las subclases.
+
+2. PATRON TEMPLATE METHOD en calcularCosto()
+   El metodo calcularCosto() esta implementado en Vehiculo como:
+   horasEstimadas * getTarifaHora()
+   El metodo getTarifaHora() es abstracto y cada subclase devuelve su tarifa.
+   Esto permite calcular el costo sin usar estructuras if/switch por tipo,
+   cumpliendo el requisito de polimorfismo de la consigna.
+
+3. INTERFACES Calculable y Mostrable
+   Se utilizaron dos interfaces separadas siguiendo el principio de
+   responsabilidad unica. Calculable define el contrato de calculo de costo
+   y Mostrable define el contrato de visualizacion de datos.
+   Ambas son implementadas por Vehiculo, que las resuelve para todas las
+   subclases.
+
+4. EXCEPCIONES VERIFICADAS
+   Las cuatro excepciones personalizadas extienden Exception y no
+   RuntimeException. Estas se manejan con try-catch, lo cual es correcto para errores
+   de logica de negocio como garage lleno o patente duplicada.
+
+5. CLASE Validador con metodos estaticos
+   Se centralizo toda la validacion de entrada del usuario en una clase
+   separada con metodos estaticos. Esto evita repetir logica de validacion
+   en el Main y facilita el mantenimiento. Cada metodo lanza una excepcion
+   clara con un mensaje descriptivo.
+
+6. BUSQUEDA POR PATENTE case-insensitive
+   El metodo buscarPorPatente() usa equalsIgnoreCase() para que el usuario
+   pueda ingresar la patente en mayusculas o minusculas sin errores.
+
+7. CLASE Reporte separada del Garage
+   Se decidio separar la logica de reportes en su propia clase en lugar de
+   agregarla al Garage. El Garage tiene la responsabilidad de administrar
+   vehiculos y los reportes se tratan como una responsabilidad distinta.
+
+8. ARRAYLIST como coleccion de vehiculos
+   Se utilizo ArrayList<Vehiculo> por su simplicidad y porque la consigna
+   no requiere ordenamiento ni acceso por indice frecuente. Permite iterar,
+   agregar y eliminar vehiculos facilmente.
+
+9. REPORTES SOBRE VEHICULOS ACTUALES
+   Los reportes muestran la recaudacion estimada de los vehiculos que estan
+   actualmente en el garage, no de los retirados. Esto es consistente con
+   el resto del reporte (espacio ocupado, espacio libre) que tambien
+   representa el estado actual del garage. Al retirar un vehiculo, el sistema
+   muestra un resumen individual de esa operacion, cubriendo el seguimiento
+   de cada salida.
